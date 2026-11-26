@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMC Tier List</title>
+<style>
+  :root {
+    --bg: #0b0e14;
+    --card: rgba(18, 24, 36, 0.88);
+    --blue: #00d2ff;
+    --purple: #9d50bb;
+    --border: rgba(255, 255, 255, 0.12);
+    --text: #ffffff;
+    --muted: #94a3b8;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.25), transparent 60%),
+      radial-gradient(circle at 85% 85%, rgba(157, 80, 187, 0.25), transparent 55%),
+      linear-gradient(180deg, rgba(11, 14, 20, 0.78), rgba(11, 14, 20, 0.96)),
+      url('https://unsplash.com');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--blue), #fff, var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    margin-top: 0.4rem;
+    font-size: 0.95rem;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.65rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .tab-btn:hover,
+  .tab-btn.active {
+    border-color: var(--blue);
+    color: #fff;
+    background: linear-gradient(135deg, rgba(0,210,255,0.22), rgba(157,80,187,0.22));
+  }
+
+  .search-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-box input {
+    width: 100%;
+    max-width: 380px;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: #fff;
+    outline: none;
+  }
+
+  .search-box input:focus {
+    border-color: var(--blue);
+  }
+
+  .table-wrapper {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow-x: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  th {
+    background: rgba(0, 0, 0, 0.45);
+    padding: 1rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .rank-num {
+    font-weight: 800;
+    color: var(--muted);
+  }
+
+  .rank-1 { color: #ffd700; }
+  .rank-2 { color: #c0c0c0; }
+  .rank-3 { color: #cd7f32; }
+
+  .player-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    background: #1e293b;
+  }
+
+  .points {
+    font-weight: 700;
+    color: var(--blue);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    min-width: 46px;
+    text-align: center;
+  }
+
+  .HT1 { background: rgba(255,215,0,0.2); color: #ffd700; border: 1px solid #ffd700; }
+  .LT1 { background: rgba(255,215,0,0.1); color: #facc15; border: 1px solid #facc15; }
+  .HT2 { background: rgba(192,192,192,0.2); color: #e2e8f0; border: 1px solid #cbd5e1; }
+  .LT2 { background: rgba(148,163,184,0.15); color: #94a3b8; border: 1px solid #94a3b8; }
+  .HT3 { background: rgba(205,127,50,0.2); color: #fb923c; border: 1px solid #fb923c; }
+  .LT3 { background: rgba(205,127,50,0.1); color: #fdba74; border: 1px solid #fdba74; }
+  .HT4, .LT4 { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid #38bdf8; }
+  .HT5, .LT5 { background: rgba(148,163,184,0.1); color: #64748b; border: 1px solid #64748b; }
+  .NONE { color: #475569; font-weight: 600; }
+
+  footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>CMC Tier List</h1>
+    <p class="subtitle">Official MCPE PvP Rankings • CubeCraft Duels</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="filterMode('overall', this)">Overall</button>
+    <button class="tab-btn" onclick="filterMode('uhc', this)">UHC</button>
+    <button class="tab-btn" onclick="filterMode('ctf', this)">CTF</button>
+    <button class="tab-btn" onclick="filterMode('bridge', this)">Bridge</button>
+    <button class="tab-btn" onclick="filterMode('skywars', this)">SkyWars</button>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search player name..." onkeyup="renderTable()">
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Points</th>
+          <th>UHC</th>
+          <th>CTF</th>
+          <th>Bridge</th>
+          <th>SkyWars</th>
+        </tr>
+      </thead>
+      <tbody id="tierTableBody"></tbody>
+    </table>
+  </div>
+
+  <footer>CMC Discord Server • MCPE Competitive Tier List</footer>
+</div>
+
+<script>
+  const players = [
+    { name: "DreamSlayerMC", points: 145, uhc: "HT1", ctf: "HT2", bridge: "LT1", skywars: "HT1" },
+    { name: "CubeGod_PE", points: 120, uhc: "LT1", ctf: "HT1", bridge: "HT2", skywars: "LT2" },
+    { name: "BridgeMaster99", points: 98, uhc: "HT3", ctf: "LT2", bridge: "HT1", skywars: "HT3" },
+    { name: "ShadowCombo", points: 82, uhc: "HT2", ctf: "HT3", bridge: "LT3", skywars: "HT2" },
+    { name: "FlagRunnerX", points: 65, uhc: "LT3", ctf: "HT1", bridge: "LT2", skywars: "NONE" },
+    { name: "TapStrafeKing", points: 50, uhc: "HT3", ctf: "LT4", bridge: "HT3", skywars: "LT3" },
+    { name: "SwiftPearl", points: 34, uhc: "LT4", ctf: "HT4", bridge: "LT4", skywars: "HT4" }
+  ];
+
+  const tierScore = {
+    HT1: 10, LT1: 9,
+    HT2: 8,  LT2: 7,
+    HT3: 6,  LT3: 5,
+    HT4: 4,  LT4: 3,
+    HT5: 2,  LT5: 1,
+    NONE: 0
+  };
+
+  let currentMode = 'overall';
+
+  function filterMode(mode, btn) {
+    currentMode = mode;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTable();
+  }
+
+  function formatBadge(tier) {
+    if (!tier || tier === "NONE") return '<span class="NONE">-</span>';
+    return `<span class="badge ${tier}">${tier}</span>`;
+  }
+
+  function renderTable() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const tbody = document.getElementById('tierTableBody');
+    tbody.innerHTML = '';
+
+    const filtered = players
+      .filter(p => p.name.toLowerCase().includes(search))
+      .sort((a, b) => {
+        if (currentMode === 'overall') return b.points - a.points;
+        return (tierScore[b[currentMode]] || 0) - (tierScore[a[currentMode]] || 0);
+      });
+
+    filtered.forEach((p, i) => {
+      const rank = i + 1;
+      const rankClass = rank <= 3 ? `rank-${rank}` : '';
+      const avatar = `https://dicebear.com{p.name}`;
+
+      tbody.innerHTML += `
+        <tr>
+          <td class="rank-num ${rankClass}">#${rank}</td>
+          <td>
+            <div class="player-cell">
+              <img src="${avatar}" alt="${p.name}" class="avatar">
+              <span>${p.name}</span>
+            </div>
+          </td>
+          <td class="points">${p.points} pts</td>
+          <td>${formatBadge(p.uhc)}</td>
+          <td>${formatBadge(p.ctf)}</td>
+          <td>${formatBadge(p.bridge)}</td>
+          <td>${formatBadge(p.skywars)}</td>
+        </tr>
+      `;
+    });
+  }
+
+  renderTable();
+</script>
+
+</body>
+</html>
+
